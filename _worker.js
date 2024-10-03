@@ -192,13 +192,13 @@ export default {
 		let url = new URL(request.url); // 解析请求URL
 		const userAgentHeader = request.headers.get('User-Agent');
 		// 过滤浏览器访问
-		// if (userAgentHeader){
-		// 	return new Response(await nginx(), {
-		// 		headers: {
-		// 			'Content-Type': 'text/html',
-		// 		},
-		// 	});
-		// }
+		if (userAgentHeader && !userAgentHeader.includes(env.ALLOWED_UA)){
+			return new Response(await nginx(), {
+				headers: {
+					'Content-Type': 'text/html',
+				},
+			});
+		}
 		const userAgent = userAgentHeader ? userAgentHeader.toLowerCase() : "null";
 		if (env.UA) 屏蔽爬虫UA = 屏蔽爬虫UA.concat(await ADD(env.UA));
 		workers_url = `https://${url.hostname}`;
